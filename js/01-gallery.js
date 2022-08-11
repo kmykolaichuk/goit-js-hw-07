@@ -5,8 +5,6 @@ console.log(galleryItems);
 
 const galleryContainer = document.querySelector('.gallery');
 
-console.log(galleryContainer);
-
 const createGalleryCardEl = ({ preview, original, description }) =>
   `<div class="gallery__item">
   <a class="gallery__link" href="${original}">
@@ -35,4 +33,12 @@ galleryContainer.addEventListener('click', evt => {
 `);
 
   instance.show();
+
+  galleryContainer.addEventListener('keyup', evt => {
+    if (evt.key === 'Escape') {
+      instance.close();
+    }
+
+    console.log(evt.key);
+  });
 });
