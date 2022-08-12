@@ -34,11 +34,13 @@ galleryContainer.addEventListener('click', evt => {
 
   instance.show();
 
-  galleryContainer.addEventListener('keyup', evt => {
-    if (evt.key === 'Escape') {
+  function onEscPress(evt) {
+    if (evt.code === 'Escape') {
       instance.close();
+      window.removeEventListener('keydown', onEscPress);
     }
+    // console.log(evt.key);
+  }
 
-    console.log(evt.key);
-  });
+  window.addEventListener('keydown', onEscPress);
 });
