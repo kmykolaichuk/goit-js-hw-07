@@ -21,26 +21,30 @@ const addCardGalleryEl = galleryItems.map(createGalleryCardEl).join('');
 
 galleryContainer.insertAdjacentHTML('beforeend', addCardGalleryEl);
 
-galleryContainer.addEventListener('click', evt => {
+galleryContainer.addEventListener('click', onCardClick);
+
+const instance = basicLightbox.create(`<img class="modal-img" src="">`, {
+  onShow: instance => {
+    window.addEventListener('keydown', onEscPress);
+  },
+
+  onClose: instance => {
+    window.removeEventListener('keydown', onEscPress);
+  },
+});
+
+function onCardClick(evt) {
   evt.preventDefault();
   if (evt.target.nodeName !== 'IMG') {
     return;
   }
-  const selectedCard = evt.target.dataset.source;
-
-  const instance = basicLightbox.create(`
-    <img src="${selectedCard}" width="800" height="600">
-`);
-
+  instance.element().querySelector('img').src = evt.target.dataset.source;
   instance.show();
+}
 
-  function onEscPress(evt) {
-    if (evt.code === 'Escape') {
-      instance.close();
-      window.removeEventListener('keydown', onEscPress);
-    }
-    // console.log(evt.key);
+function onEscPress(evt) {
+  if (evt.code === 'Escape') {
+    instance.close();
+    return;
   }
-
-  window.addEventListener('keydown', onEscPress);
-});
+}
